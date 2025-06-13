@@ -48,13 +48,14 @@ class Personaje {
   constructor() {
     this.x = 50;
     this.y = 300;
-    this.width = 50;
-    this.height = 50;
+    this.width = 100;
+    this.height = 100;
     this.velocidad = 10;
     this.saltando = false;
 
-    this.element = document.createElement("div");
+    this.element = document.createElement("img");
     this.element.classList.add("personaje");
+    this.element.src = "img/player.png";
 
     this.actualizarPosicion();
   }
@@ -119,8 +120,9 @@ class Moneda {
     this.y = Math.random() * 250 + 50;
     this.width = 30;
     this.height = 30;
-    this.element = document.createElement("div");
+    this.element = document.createElement("img");
     this.element.classList.add("moneda");
+    this.element.src = "img/moneda.png"
 
     this.actualizarPosicion();
   }
