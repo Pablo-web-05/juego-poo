@@ -2,17 +2,22 @@ class Game {
   constructor() {
     this.container = document.getElementById("game-container");
     this.puntosElement = document.getElementById("puntos");
+    this.puntos1Element = document.getElementById("puntos1");
     this.personaje = null;
+    this.personaje1 = null;
     this.monedas = [];
     this.puntuacion = 0;
+    this.puntuacion1 = 0;
 
     this.crearEscenario();
     this.agregarEventos();
   }
 
   crearEscenario() {
-    this.personaje = new Personaje();
+    this.personaje = new Personaje(0);
+    this.personaje1 = new Personaje(1);
     this.container.appendChild(this.personaje.element);
+    this.container.appendChild(this.personaje1.element);
 
     for (let i = 0; i < 5; i++) {
       const moneda = new Moneda();
@@ -24,6 +29,8 @@ class Game {
   agregarEventos() {
     window.addEventListener("keydown", (e) => this.personaje.mover(e));
     this.checkColisiones();
+        window.addEventListener("keydown", (e) => this.personaje1.mover(e));
+    this.checkColisiones();
   }
 
   checkColisiones() {
@@ -33,6 +40,10 @@ class Game {
           this.container.removeChild(moneda.element);
           this.monedas.splice(index, 1);
           this.actualizarPuntuacion(10);
+        } else if (this.personaje1.colisionaCon(moneda)) {
+          this.container.removeChild(moneda.element);
+          this.monedas.splice(index, 1);
+          this.actualizarPuntuacion1(10);
         }
       });
     }, 100);
@@ -40,37 +51,71 @@ class Game {
 
   actualizarPuntuacion(puntos) {
     this.puntuacion += puntos;
-    this.puntosElement.textContent = `Puntos: ${this.puntuacion}`;
+    this.puntosElement.textContent = `Puntos jugador I: ${this.puntuacion}`;
   }
+  actualizarPuntuacion1(puntos) {
+    this.puntuacion1 += puntos;
+    this.puntos1Element.textContent = `Puntos jugador II: ${this.puntuacion1}`;
+  } 
 }
 
 class Personaje {
-  constructor() {
-    this.x = 50;
-    this.y = 300;
+  constructor(player) {
+
+    this.container = document.getElementById("game-container");
+
+
+    this.element = document.createElement("img");
+    this.element.classList.add("personaje");
+
+    if(player == 0){
+      this.x = 50;
+      this.y = 300;
+      this.player = 0;
+      this.element.src = "img/player.png";
+    }else{
+      this.x = this.container.clientWidth - 120;
+      this.y = 300;
+      this.player = 1;
+      this.element.src = "img/player1.png";
+    }
+
     this.width = 100;
     this.height = 100;
     this.velocidad = 10;
     this.saltando = false;
 
-    this.container = document.getElementById("game-container");
-    this.element = document.createElement("img");
-    this.element.classList.add("personaje");
-    this.element.src = "img/player.png";
+
+
+    
 
     this.actualizarPosicion();
   }
 
   mover(evento) {
-    if (evento.key === "ArrowRight" && this.x + this.width < this.container.clientWidth) {
-      this.x += this.velocidad;
-    } else if (evento.key === "ArrowLeft" && this.x > this.container.clientLeft ) {
-      this.x -= this.velocidad;
-    } else if (evento.key === "ArrowUp" && !this.saltando) {
-      this.saltar();
+    if(this.player == 0){
+      const key = evento.key.toLowerCase();
+      if (key === "d" && this.x + this.width < this.container.clientWidth) {
+        this.x += this.velocidad;
+      } else if (key === "a" && this.x > this.container.clientLeft ) {
+        this.x -= this.velocidad;
+      } else if (key === "w" && !this.saltando) {
+        this.saltar();
+      }
+
+      this.actualizarPosicion();
+    }else{
+      if (evento.key === "ArrowRight" && this.x + this.width < this.container.clientWidth) {
+        this.x += this.velocidad;
+      } else if (evento.key === "ArrowLeft" && this.x > this.container.clientLeft ) {
+        this.x -= this.velocidad;
+      } else if (evento.key === "ArrowUp" && !this.saltando) {
+        this.saltar();
+      }
+
+      this.actualizarPosicion();
     }
 
-    this.actualizarPosicion();
   }
 
   saltar() {
@@ -119,8 +164,8 @@ class Moneda {
   constructor() {
     this.x = Math.random() * 700 + 50;
     this.y = Math.random() * 250 + 50;
-    this.width = 30;
-    this.height = 30;
+    this.width = 40;
+    this.height = 40;
     this.element = document.createElement("img");
     this.element.classList.add("moneda");
     this.element.src = "img/moneda.png"
