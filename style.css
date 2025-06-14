@@ -1,23 +1,24 @@
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family:Georgia, 'Times New Roman', Times, serif;
   overflow: hidden;
-  background-color: #b8b8b8;
+  background-color: #9900ff;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   flex-direction: column;
+  color: #ffffff;
 }
 #game-container {
   position: relative;
   width: 800px;
   height: 400px;
   margin: 20px auto;
-  border: 10px solid #6d6d6d;
+  border: 10px solid #020845;
   background: #fff;
   overflow: hidden;
-  border-radius: 30px;
+  border-radius: 5px;
 }
 
 #game-container .fondo{

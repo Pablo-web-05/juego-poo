@@ -53,6 +53,7 @@ class Personaje {
     this.velocidad = 10;
     this.saltando = false;
 
+    this.container = document.getElementById("game-container");
     this.element = document.createElement("img");
     this.element.classList.add("personaje");
     this.element.src = "img/player.png";
@@ -61,9 +62,9 @@ class Personaje {
   }
 
   mover(evento) {
-    if (evento.key === "ArrowRight") {
+    if (evento.key === "ArrowRight" && this.x + this.width < this.container.clientWidth) {
       this.x += this.velocidad;
-    } else if (evento.key === "ArrowLeft") {
+    } else if (evento.key === "ArrowLeft" && this.x > this.container.clientLeft ) {
       this.x -= this.velocidad;
     } else if (evento.key === "ArrowUp" && !this.saltando) {
       this.saltar();
