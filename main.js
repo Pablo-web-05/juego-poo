@@ -19,7 +19,7 @@ class Game {
     this.container.appendChild(this.personaje.element);
     this.container.appendChild(this.personaje1.element);
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 11; i++) {
       const moneda = new Moneda();
       this.monedas.push(moneda);
       this.container.appendChild(moneda.element);
@@ -28,13 +28,12 @@ class Game {
 
   agregarEventos() {
     window.addEventListener("keydown", (e) => this.personaje.mover(e));
-    this.checkColisiones();
-        window.addEventListener("keydown", (e) => this.personaje1.mover(e));
+    window.addEventListener("keydown", (e) => this.personaje1.mover(e));
     this.checkColisiones();
   }
 
   checkColisiones() {
-    setInterval(() => {
+    this.colisionInterval = setInterval(() => {
       this.monedas.forEach((moneda, index) => {
         if (this.personaje.colisionaCon(moneda)) {
           this.container.removeChild(moneda.element);
@@ -46,7 +45,25 @@ class Game {
           this.actualizarPuntuacion1(10);
         }
       });
+
+      // Verifica si ya no quedan monedas
+      if (this.monedas.length === 0) {
+        clearInterval(this.colisionInterval);
+        this.mostrarGanador();
+      }
     }, 100);
+  }
+
+  mostrarGanador() {
+    let mensaje = "";
+    if (this.puntuacion > this.puntuacion1) {
+      mensaje = "¡Jugador I gana!";
+    } else if (this.puntuacion1 > this.puntuacion) {
+      mensaje = "¡Jugador II gana!";
+    } else {
+      mensaje = "¡Empate!";
+    }
+    alert(mensaje);
   }
 
   actualizarPuntuacion(puntos) {
@@ -97,8 +114,10 @@ class Personaje {
       const key = evento.key.toLowerCase();
       if (key === "d" && this.x + this.width < this.container.clientWidth) {
         this.x += this.velocidad;
+        this.element.style.transform = "scaleX(1)"; // Voltear personaje
       } else if (key === "a" && this.x > this.container.clientLeft ) {
         this.x -= this.velocidad;
+        this.element.style.transform = "scaleX(-1)"; // Voltear personaje
       } else if (key === "w" && !this.saltando) {
         this.saltar();
       }
@@ -107,7 +126,9 @@ class Personaje {
     }else{
       if (evento.key === "ArrowRight" && this.x + this.width < this.container.clientWidth) {
         this.x += this.velocidad;
+        this.element.style.transform = "scaleX(-1)"; // Voltear personaje
       } else if (evento.key === "ArrowLeft" && this.x > this.container.clientLeft ) {
+        this.element.style.transform = "scaleX(1)"; // Voltear personaje
         this.x -= this.velocidad;
       } else if (evento.key === "ArrowUp" && !this.saltando) {
         this.saltar();

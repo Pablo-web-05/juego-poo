@@ -1,8 +1,8 @@
 body {
   margin: 0;
-  font-family:Georgia, 'Times New Roman', Times, serif;
+  font-family: Georgia, 'Times New Roman', Times, serif;
   overflow: hidden;
-  background-color: #9900ff;
+  background: linear-gradient(135deg, #9900ff 0%, #3a0ca3 100%);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -10,15 +10,25 @@ body {
   flex-direction: column;
   color: #ffffff;
 }
+
+h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+  text-shadow: 2px 2px 8px #3a0ca3, 0 0 10px #fff;
+}
+
 #game-container {
   position: relative;
   width: 800px;
   height: 400px;
   margin: 20px auto;
   border: 10px solid #020845;
-  background: #fff;
+  background: linear-gradient(120deg, #f8fafc 60%, #e0c3fc 100%);
   overflow: hidden;
-  border-radius: 5px;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
 }
 
 #game-container .fondo{
@@ -30,18 +40,34 @@ body {
   position: absolute;
   width: 100px;
   height: 100px;
+  filter: drop-shadow(0 0 8px #3a0ca3aa);
 }
 
 .moneda {
   position: absolute;
   width: 40px;
   height: 40px;
-  border: 1px solid rgb(255, 255, 255);
+  border: 2px solid #ffe066;
   border-radius: 100%;
+  box-shadow: 0 0 10px #ffe06688;
 }
 
-#puntos {
-  font-size: 20px;
-  text-align: center;
-  margin: 10px 0;
+#puntuaciones {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 800px;
+  margin-bottom: 20px;
+  background: rgba(32, 8, 69, 0.8);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(32, 8, 69, 0.15);
+  padding: 12px 32px;
+}
+
+.puntuacion {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffe066;
+  text-shadow: 1px 1px 4px #020845;
+  letter-spacing: 1px;
 }
